@@ -1,0 +1,351 @@
+#root {
+  background-color: transparent;
+  position: relative; /* keep stacking context */
+  z-index: 0; /* ensure above canvas */
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: left;
+  font-family: inherit;
+}
+
+body {
+  background-color: transparent;
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  font-family: inherit;
+  color: #e2e0e0;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
+  height: 64px;
+  background-color: rgba(7, 7, 7, 0.85); /* semi-transparent */
+  border-radius: 0px;
+  backdrop-filter: blur(25px); /* optional for a frosted look */  
+  border-bottom: 2px solid var(--accent-color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 46px;
+}
+
+.navbar-right a {
+  position: relative;
+  text-decoration: none;
+  color: #E0E0E0 ;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: color 0.2s, background 0.2s;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+  height: 100%;
+}
+
+.navbar-right a:hover,
+.navbar-right a:focus,
+.navbar-right a:active,
+.navbar-right a.active {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.site-logo {
+  height: 0px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+  padding: 0px;
+  box-sizing: content-box;
+}
+
+header:empty {
+  display: none;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  visibility: hidden;
+}
+
+.home-section {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.home-section h2 {
+  color: #d8d7d7;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.green-text {
+  color: var(--accent-color);
+}
+
+
+
+/* Hamburger container */
+.hamburger {
+  display: none;
+  width: 30px;
+  height: 22px;
+  position: relative;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger span {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent-color);
+  transition: all 0.3s ease;
+  left: 0;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger span:nth-child(2) {
+  top: 9px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 18px;
+}
+
+/* Transform to X when open */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 9px;
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 9px;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 64px;
+  right: 0;
+  width: 220px;
+  padding: 1rem;
+  height: calc(100vh - 64px);
+  background-color: rgba(7, 7, 7, 0.99);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu a {
+  color: #E0E0E0;
+  margin: 0 -1rem; 
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 1rem 1rem;
+  border-radius: 0px;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.mobile-menu a:hover {
+  background-color: var(--accent-color);
+  color: white;
+  width: 100%;
+}
+
+/* Responsive behavior */
+@media (max-width: 827px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+.color-picker-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.color-picker-toggle {
+  font-size: 1.5rem;           /* keep icon size */
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;              /* prevent extra vertical spacing */
+  display: flex;               /* use flexbox for perfect centering */
+  align-items: center;
+  justify-content: center;
+  height: 46px;                /* same height as navbar-right */
+  width: 46px;                 /* square clickable area */
+  box-sizing: border-box;
+  padding: 0;
+  transition: transform 0.4s ease;
+  margin-left: 11.5rem;
+}
+
+.color-picker-toggle.open {
+  transform: rotate(180deg);
+}
+
+.color-picker-popup {
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 2000;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+
+  opacity: 0;
+  transform-origin: top right;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  position: absolute; 
+  margin-left: 1.25rem;
+/* or fixed for desktop */
+  /* For mobile popup, additional styles come from .mobile-color-picker */
+}
+
+.color-picker-popup.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  margin-left: 1.25rem;
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #333;
+  transition: transform 0.2s ease;
+}
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+/* Optional: extra tweak for mobile-specific layout */
+.mobile-color-picker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns for 7 items */
+  gap: 0.6rem;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+}
+
+
+.text-logo {
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.logo-white {
+  color: white;
+}
+
+.green-text {
+  color: var(--accent-color); /* or replace with hard-coded like #15c944 */
+}
+
+body {
+  margin: 0;
+  font-family: inherit;
+  color: #e2e0e0;
+  background-color: #0b0b0b; /* fallback */
+  overflow: hidden; /* if you want to remove scrollbars */
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+}
+
+
+#tsparticles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* set to 0 or higher */
+  pointer-events: none;
+}
+
+body > *:not(#tsparticles) {
+  position: relative;
+  z-index: 1; /* push content above canvas */
+}

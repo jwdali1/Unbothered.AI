@@ -1,0 +1,104 @@
+.signup-container h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  padding: auto;
+  margin-bottom: 1rem;
+  color: #eeeeee;
+}
+.signup-container {
+  position: fixed;
+  top: 8%;
+  transform: translateX(-50%); /* ONLY center horizontally */
+  background-color: rgb(7, 7, 7); /* semi-transparent */
+  border-radius: 0px !important;
+  padding: 1.4rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--accent-color-dark);
+  align-items: center;
+  width: min(100vw, 1100px);
+  margin: 0 auto;
+  max-height: calc(100vh - 10%);
+  resize: none;
+  scrollbar-gutter: stable both-edges; /* modern fix for layout shift */
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
+.signup-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1rem;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 1rem 1rem;
+  overflow: visible;
+  position: relative;
+}
+.signup-form input::placeholder
+{
+  font-size: 1.3rem;
+  font-family: inherit !important;
+  color: #5b5b5b !important;
+  opacity: 1;
+}
+.signup-form input, .signup-form select {
+  padding: 0.75rem;
+  border: 1px solid #272927;
+  box-shadow: 0 0 10px 5px #00000015;
+  font-size: 1.3rem;
+  font-family: inherit;
+  background: #0A0A0A;
+  color: #F5F5F5;
+  width: auto;
+  height: 52px;
+  box-sizing: border-box;
+  appearance: none;
+  overflow: visible;
+}
+.signup-form input:focus, .signup-form select:focus {
+  outline: none;
+  color: #F5F5F5
+}
+.signup-form button {
+  background: var(--accent-color);
+  color: #F5F5F5;
+  border: none;
+  border-radius: 0px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(20, 167, 47, 0.08);
+}
+.signup-form button:hover, 
+.signup-form button:active
+ {
+  outline: none;
+  background: var(--accent-color-dark);
+}
+
+.signup-form button[type="submit"] {
+  height: 48px; /* was 4px, possibly a mistake */
+  width: 100%;
+  margin-top: 0;
+  margin-left: 0;
+  display: block;
+  position: relative;
+}
+  
+@media (max-width: 827px) {
+  .signup-form {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+}
+
+@media (max-width: 827px) {
+  .signup-form input, .signup-form select {
+  height: 60px;
+  }
+}
+

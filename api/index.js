@@ -64,10 +64,13 @@ app.get('/api/user/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const conn = await mysql.createConnection(dbConfig);
-    const [rows] = await conn.execute('SELECT id, first_name, last_name, gender, country, dob, email FROM users WHERE id = ?', [id]);
+    // Return dob as formatted string from the DB to avoid timezone conversions in JS
+    const [rows] = await conn.execute(
+      "SELECT id, first_name, last_name, gender, country, DATE_FORMAT(dob, '%Y-%m-%d') AS dob, email FROM users WHERE id = ?",
+      [id]
+    );
     await conn.end();
     if (rows.length === 0) return res.status(404).json({ error: 'User not found.' });
-    rows[0].dob = rows[0].dob ? rows[0].dob.toISOString().slice(0, 10) : null;
     res.json({ user: rows[0] });
   } catch (err) {
     console.error('Database error:', err);

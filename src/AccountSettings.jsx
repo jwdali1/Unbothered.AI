@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Select from 'react-select';
 import './AccountSettings.css';
 import DropdownDOBPicker from './DropdownDOBPicker';
@@ -70,18 +70,28 @@ if (res.ok) {
   };
 
   const handleChange = (e) => {
+    try {
+      console.debug('AccountSettings.handleChange', e?.target?.name, e?.target?.value);
+    } catch (err) {
+      console.debug('AccountSettings.handleChange error', err);
+    }
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === 'gender' && e.target.value !== 'Other') setCustomGender('');
   };
   const handleCustomGenderChange = (e) => {
+    // Keep `form.gender` as 'Other' while the user types their custom gender.
     setCustomGender(e.target.value);
-    setForm({ ...form, gender: e.target.value });
+    setForm({ ...form, gender: 'Other' });
   };
   const handleCountryChange = (option) => {
     // CountryPicker is a native <select> so it provides an event
     const value = option && option.target ? option.target.value : (option ? option.label : '');
     setForm({ ...form, country: value });
   };
+
+  const handleDobChange = useCallback((dateString) => {
+    setForm((f) => ({ ...f, dob: dateString }));
+  }, []);
 
   const handleSave = async () => {
     setLoading(true);
@@ -114,7 +124,14 @@ if (res.ok) {
       });
       const data = await res.json();
       if (res.ok) {
-        setDetails({ ...form, gender: form.gender === 'Other' ? customGender : form.gender, dob: dobToSend });
+        const savedGender = form.gender === 'Other' ? customGender : form.gender;
+        const newDetails = { ...form, gender: savedGender, dob: dobToSend };
+        // Keep form.gender as 'Other' so the select remains visible when editing again,
+        // and keep the customGender state set to the saved custom value.
+        const newForm = { ...form, gender: form.gender === 'Other' ? 'Other' : form.gender, dob: dobToSend };
+        setDetails(newDetails);
+        setForm(newForm);
+        if (form.gender === 'Other') setCustomGender(savedGender);
         setEditMode(false);
         setSuccess('Details changed successfully!');
       } else {
@@ -163,7 +180,9 @@ if (res.ok) {
           <div className="account-view-field">
             {['Male', 'Female', 'Non-binary', 'Prefer not to say'].includes(details.gender)
               ? details.gender
-              : details.gender || ''}
+              : details.gender
+              ? `Other — ${details.gender}`
+              : ''}
           </div>
         )}
 
@@ -192,7 +211,7 @@ if (res.ok) {
 {editMode ? (
 <DropdownDOBPicker
   value={form.dob || ''}
-  onChange={(dateString) => setForm({ ...form, dob: dateString })}
+  onChange={handleDobChange}
 />
 ) : (
 <DropdownDOBPicker

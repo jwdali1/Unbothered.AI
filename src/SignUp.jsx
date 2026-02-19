@@ -15,12 +15,8 @@ const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other
 function validateEmail(email) {
   // Simple RFC 5322 compliant regex
   return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-}
-function validatePassword(password) {
-  // At least 8 chars, one special char, one uppercase
-  return /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
-}
-// const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
+
+
 export default function SignUp({ setUser }) {
   const [form, setForm] = useState({
     firstName: '',
@@ -41,22 +37,17 @@ export default function SignUp({ setUser }) {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === 'gender' && e.target.value !== 'Other') setCustomGender('');
   };
-  const handleDateChange = date => {
-    setForm({ ...form, dob: date });
-  };
-  const handleCountryChange = option => {
-    setForm({ ...form, country: option ? option.label : '' });
-  };
+  
 
   const handlePasteBlock = e => {
     e.preventDefault();
   };
-  // const handleDateChange = date => {
-  //   setForm({ ...form, dob: date });
-  // };
-  // const handleCountryChange = option => {
-  //   setForm({ ...form, country: option ? option.label : '' });
-  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateEmail(form.email)) {
+      setError('Please enter a valid email address.');
+      return;
     }
     if (!validateEmail(form.reEmail)) {
       setError('Please re-enter a valid email address.');

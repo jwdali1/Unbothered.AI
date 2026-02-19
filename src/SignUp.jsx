@@ -11,7 +11,7 @@ import './CountryPicker.css';
 
 
 
-const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
+const _genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
 
 function validateEmail(email) {
   // Simple RFC 5322 compliant regex
@@ -42,10 +42,10 @@ export default function SignUp({ setUser }) {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === 'gender' && e.target.value !== 'Other') setCustomGender('');
   };
-  const handleDateChange = date => {
+  const _handleDateChange = date => {
     setForm({ ...form, dob: date });
   };
-  const handleCountryChange = option => {
+  const _handleCountryChange = option => {
     setForm({ ...form, country: option ? option.label : '' });
   };
 
@@ -121,9 +121,9 @@ export default function SignUp({ setUser }) {
 
 
 
-  const today = new Date();
-  const minAge = 13;
-  const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+  const _today = new Date();
+  const _minAge = 13;
+  const _maxDate = new Date(_today.getFullYear() - _minAge, _today.getMonth(), _today.getDate());
 
   return (
     <div className="signup-container">

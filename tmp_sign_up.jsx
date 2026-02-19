@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 import Select from 'react-select';
@@ -10,8 +10,7 @@ import './CountryPicker.css';
 
 
 
-
-const _genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
+const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
 
 function validateEmail(email) {
   // Simple RFC 5322 compliant regex
@@ -28,7 +27,7 @@ export default function SignUp({ setUser }) {
     lastName: '',
     gender: '',
     country: '',
-    dob: '', // stored as YYYY-MM-DD string
+    dob: null, // use Date object for react-datepicker
     email: '',
     reEmail: '',
     password: '',
@@ -42,10 +41,10 @@ export default function SignUp({ setUser }) {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === 'gender' && e.target.value !== 'Other') setCustomGender('');
   };
-  const _handleDateChange = date => {
+  const handleDateChange = date => {
     setForm({ ...form, dob: date });
   };
-  const _handleCountryChange = option => {
+  const handleCountryChange = option => {
     setForm({ ...form, country: option ? option.label : '' });
   };
 
@@ -86,7 +85,7 @@ export default function SignUp({ setUser }) {
           lastName: form.lastName,
           gender: form.gender,
           country: form.country,
-            dob: form.dob || '',
+          dob: form.dob ? form.dob.toISOString().slice(0, 10) : '',
           email: form.email,
           password: form.password
         })
@@ -118,12 +117,12 @@ export default function SignUp({ setUser }) {
     }
   };
 
+  
+  
 
-
-
-  const _today = new Date();
-  const _minAge = 13;
-  const _maxDate = new Date(_today.getFullYear() - _minAge, _today.getMonth(), _today.getDate());
+  const today = new Date();
+  const minAge = 13;
+  const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
 
   return (
     <div className="signup-container">
@@ -143,10 +142,10 @@ export default function SignUp({ setUser }) {
             style={{ textAlign: 'left' }}
           />
         )}
-        <CountryPicker
-          value={form.country}
-          onChange={(e) => setForm({ ...form, country: e.target.value })}
-        />
+<CountryPicker
+  value={form.country}
+  onChange={(e) => setForm({ ...form, country: e.target.value })}
+/>
         <input
           name="email"
           type="email"
@@ -193,7 +192,7 @@ export default function SignUp({ setUser }) {
           onCut={handlePasteBlock}
         />
         {/* Modern Date of Birth Picker - after re-enter password */}
-        <DropdownDOBPicker value={form.dob || ''} onChange={(dateString) => setForm({ ...form, dob: dateString })} />
+        <DropdownDOBPicker onChange={(dateString) => setForm({ ...form, dob: new Date(dateString) })} />
 
         <button type="submit">Sign Up</button>
         {error && <div style={{ color: 'red', fontSize: '0.95em' }}>{error}</div>}

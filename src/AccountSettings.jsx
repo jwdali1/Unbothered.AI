@@ -86,6 +86,18 @@ if (res.ok) {
     setError('');
     setSuccess('');
     try {
+      const formatDob = (d) => {
+        if (!d) return '';
+        if (typeof d === 'string') return d.slice(0, 10);
+        const dt = new Date(d);
+        const yyyy = dt.getFullYear();
+        const mm = String(dt.getMonth() + 1).padStart(2, '0');
+        const dd = String(dt.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      };
+
+      const dobToSend = formatDob(form.dob);
+
       const res = await fetch(`http://localhost:3001/api/user/${user.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -94,13 +106,13 @@ if (res.ok) {
           last_name: form.last_name,
           gender: form.gender === 'Other' ? customGender : form.gender,
           country: form.country,
-          dob: form.dob,
+          dob: dobToSend,
           email: form.email
         })
       });
       const data = await res.json();
       if (res.ok) {
-        setDetails({ ...form, gender: form.gender === 'Other' ? customGender : form.gender });
+        setDetails({ ...form, gender: form.gender === 'Other' ? customGender : form.gender, dob: dobToSend });
         setEditMode(false);
         setSuccess('Details changed successfully!');
       } else {

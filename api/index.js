@@ -28,7 +28,7 @@ app.post('/api/signup', async (req, res) => {
     }
     const hash = await bcrypt.hash(password, 10);
     await conn.execute(
-      'INSERT INTO users (first_name, last_name, gender, country, dob, email, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO users (first_name, last_name, gender, country, dob, email, password_hash) VALUES (?, ?, ?, ?, STR_TO_DATE(?, "%Y-%m-%d"), ?, ?)',
       [firstName, lastName, gender, country, dob, email, hash]
     );
     await conn.end();
@@ -100,7 +100,7 @@ app.put('/api/user/:id', async (req, res) => {
       return res.status(409).json({ error: 'Email already in use.' });
     }
     await conn.execute(
-      'UPDATE users SET first_name = ?, last_name = ?, gender = ?, country = ?, dob = ?, email = ? WHERE id = ?',
+      'UPDATE users SET first_name = ?, last_name = ?, gender = ?, country = ?, dob = STR_TO_DATE(?, "%Y-%m-%d"), email = ? WHERE id = ?',
       [first_name, last_name, gender, country, dob, email, id]
     );
     await conn.end();

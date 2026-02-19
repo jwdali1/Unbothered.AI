@@ -78,7 +78,9 @@ if (res.ok) {
     setForm({ ...form, gender: e.target.value });
   };
   const handleCountryChange = (option) => {
-    setForm({ ...form, country: option ? option.label : '' });
+    // CountryPicker is a native <select> so it provides an event
+    const value = option && option.target ? option.target.value : (option ? option.label : '');
+    setForm({ ...form, country: value });
   };
 
   const handleSave = async () => {

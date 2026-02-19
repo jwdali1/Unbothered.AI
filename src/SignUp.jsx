@@ -4,12 +4,6 @@ import './SignUp.css';
 import Select from 'react-select';
 import CountryPicker from './CountryPicker';
 import GenderPicker from './GenderPicker';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './SignUp.css';
-import Select from 'react-select';
-import CountryPicker from './CountryPicker';
-import GenderPicker from './GenderPicker';
 import DropdownDOBPicker from './DropdownDOBPicker';
 import './DropdownDOBPicker.css';
 import './CountryPicker.css';
@@ -124,7 +118,6 @@ export default function SignUp({ setUser }) {
     }
   };
 
-  
 
 
 

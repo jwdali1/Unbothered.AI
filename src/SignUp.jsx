@@ -4,9 +4,16 @@ import './SignUp.css';
 import Select from 'react-select';
 import CountryPicker from './CountryPicker';
 import GenderPicker from './GenderPicker';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './SignUp.css';
+import Select from 'react-select';
+import CountryPicker from './CountryPicker';
+import GenderPicker from './GenderPicker';
 import DropdownDOBPicker from './DropdownDOBPicker';
 import './DropdownDOBPicker.css';
 import './CountryPicker.css';
+
 
 
 
@@ -15,7 +22,11 @@ const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other
 function validateEmail(email) {
   // Simple RFC 5322 compliant regex
   return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-
+}
+function validatePassword(password) {
+  // At least 8 chars, one special char, one uppercase
+  return /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
+}
 
 export default function SignUp({ setUser }) {
   const [form, setForm] = useState({
@@ -37,7 +48,12 @@ export default function SignUp({ setUser }) {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === 'gender' && e.target.value !== 'Other') setCustomGender('');
   };
-  
+  const handleDateChange = date => {
+    setForm({ ...form, dob: date });
+  };
+  const handleCountryChange = option => {
+    setForm({ ...form, country: option ? option.label : '' });
+  };
 
   const handlePasteBlock = e => {
     e.preventDefault();
@@ -109,9 +125,12 @@ export default function SignUp({ setUser }) {
   };
 
   
-  
 
-  
+
+
+  const today = new Date();
+  const minAge = 13;
+  const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
 
   return (
     <div className="signup-container">
@@ -131,10 +150,10 @@ export default function SignUp({ setUser }) {
             style={{ textAlign: 'left' }}
           />
         )}
-<CountryPicker
-  value={form.country}
-  onChange={(e) => setForm({ ...form, country: e.target.value })}
-/>
+        <CountryPicker
+          value={form.country}
+          onChange={(e) => setForm({ ...form, country: e.target.value })}
+        />
         <input
           name="email"
           type="email"

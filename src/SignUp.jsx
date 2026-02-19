@@ -20,7 +20,7 @@ function validatePassword(password) {
   // At least 8 chars, one special char, one uppercase
   return /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
 }
-
+// const genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other'];
 export default function SignUp({ setUser }) {
   const [form, setForm] = useState({
     firstName: '',
@@ -51,12 +51,12 @@ export default function SignUp({ setUser }) {
   const handlePasteBlock = e => {
     e.preventDefault();
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateEmail(form.email)) {
-      setError('Please enter a valid email address.');
-      return;
+  // const handleDateChange = date => {
+  //   setForm({ ...form, dob: date });
+  // };
+  // const handleCountryChange = option => {
+  //   setForm({ ...form, country: option ? option.label : '' });
+  // };
     }
     if (!validateEmail(form.reEmail)) {
       setError('Please re-enter a valid email address.');
@@ -120,9 +120,7 @@ export default function SignUp({ setUser }) {
   
   
 
-  const today = new Date();
-  const minAge = 13;
-  const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+  
 
   return (
     <div className="signup-container">
